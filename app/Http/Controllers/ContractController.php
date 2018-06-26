@@ -91,7 +91,8 @@ class ContractController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $contract = Contract::findOrFail($id);
+        dd($contract);
     }
 
     /**

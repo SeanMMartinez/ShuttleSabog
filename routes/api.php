@@ -39,5 +39,14 @@ Route::group(['middleware' => 'auth:api'], function (){
 
     //User Change Password API
     Route::post('/changePass', 'API\UserDataApiController@changePassword');
+
+    //Chat User
+    Route::post('addChat', 'API\ConversationApiController@conversation');
+
+    //Chat User
+    Route::get('chat', 'API\ConversationApiController@chatUser');
+
+    //Chat API
+    Route::get('chat/{id}', 'API\ConversationApiController@getChat');
 });
 

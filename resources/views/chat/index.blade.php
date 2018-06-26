@@ -31,19 +31,27 @@
                         <h6 class="font-weight-bold mb-3 text-center text-lg-left">Member</h6>
                         <div class="white z-depth-1 px-3 pt-3 pb-0">
                             <ul class="list-unstyled friend-list">
-                                @foreach($connections as $connection)
-                                <li class="active grey lighten-3 p-2">
-                                    <a href="{{ route('chat.show', $connection->User_Id) }}" class="d-flex justify-content-between">
-                                        <div class="text-small">
-                                            <strong>{{ $connection->User_FirstName }}</strong>
-                                            <p class="last-message text-muted">Hello, Are you there?</p>
-                                        </div>
-                                        <div class="chat-footer">
-                                            <p class="text-smaller text-muted mb-0">Just now</p>
-                                            <span class="badge badge-danger float-right">1</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                @foreach($conversations as $conversation)
+                                    <li class="active grey lighten-3 p-2">
+                                        @foreach($conversation->messages as $message)
+                                            @if($message->Friend_Id != Auth::user()->User_Id)
+                                                <a href="{{ route('chat.show', $message->Friend_Id) }}"
+                                                   class="d-flex justify-content-between">
+                                            @else($message->User_Id != Auth::user()->User_Id)
+                                                <a href="{{ route('chat.show', $message->User_Id) }}"
+                                                   class="d-flex justify-content-between">
+                                            @endif
+                                        @endforeach
+                                            <div class="text-small">
+                                                <strong>{{ $conversation->Chat_Category }}</strong>
+                                                <p class="last-message text-muted">Hello, Are you there?</p>
+                                            </div>
+                                            <div class="chat-footer">
+                                                <p class="text-smaller text-muted mb-0">Just now</p>
+                                                <span class="badge badge-danger float-right">1</span>
+                                            </div>
+                                        </a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>

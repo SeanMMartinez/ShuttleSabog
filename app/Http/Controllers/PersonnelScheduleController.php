@@ -2,31 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Conversation;
-use App\Message;
-use App\User;
+use App\Personnel;
+use App\PersonnelSchedule;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class ConversationController extends Controller
+class PersonnelScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        //get messages containing the current logged in user
-        $messages = Message::where('User_Id', Auth::user()->User_Id)->where('Friend_Id', '!=', Auth::user()->User_Id)
-            ->orWhere('Friend_Id', Auth::user()->User_Id)->where('User_Id', '!=', Auth::user()->User_Id)->get();
-
-        //get all chat Id based on messages
-        $getChatId = $messages->pluck('Chat_Id')->toArray();
-
-        //get conversations
-        $conversations = Conversation::whereIn('Chat_Id', $getChatId)->get();
-
-        return view('chat.index')->with('conversations', $conversations)->with('messages', $messages);
+    public function index()
+    {
+        $personnelSched = PersonnelSchedule::all();
+        return view('personnelsched.index')->withPersonnelSchedule($personnelSched);
     }
 
     /**
@@ -36,7 +26,8 @@ class ConversationController extends Controller
      */
     public function create()
     {
-
+        $personnel = Personnel::all();
+        return view('personnelsched.index')->withPersonnel($personnel);
     }
 
     /**
@@ -47,8 +38,15 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        $conversation = new Conversation();
+        $personnelSched = new PersonnelSchedule();
+        $personnelSched->Personnel_Id = $request->input('Personnel_Id');
+        $personnelSched->Day = $request->input('Day');
+        $personnelSched->Time = $request->input('Time');
+        $personnelSched->Vacancy = $request->input('Vacancy');
+        $personnelSched->Floor = $request->input('Floor');
+        $personnelSched->save();
 
+        return view('personnelsched.show')->with('personnelSched', $personnelSched);
     }
 
     /**
@@ -59,6 +57,7 @@ class ConversationController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**

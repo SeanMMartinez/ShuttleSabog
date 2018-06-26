@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -21,6 +22,11 @@ class User extends Authenticatable
         'User_Birthdate', 'User_Age', 'User_Religion', 'User_Gender', 'User_CivilStatus',
         'User_CellphoneNo', 'User_LandlineNo'
     ];
+
+    public function getAgeAttribute()
+    {
+        return Carbon::parse($this->attributes['User_Birthdate'])->age;
+    }
 
     //Set relationship
     public function userAccount(){

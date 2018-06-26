@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conversation;
 use App\Events\ChatEvent;
 use App\Message;
 use App\User;
@@ -19,8 +20,20 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $connections = User::where('User_Id', Auth::user()->User_Id)->first()->connection();
-        return view('chat.index')->with('connections', $connections);
+//      $friends = User::where('User_Id', Auth::user()->User_Id)->first()->connection();
+//      return view('chat.index')->with('friends', $friends);
+        if(UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Tenant')->first()){
+            $connections = UserAccount::whereRoleIs('Employee')->get();
+            return view('chat.index')->with('connections', $connections);
+        }
+        else if (UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Administrator')->first()){
+            $connections = UserAccount::whereRoleIs('Tenant')->get();
+            return view('chat.index')->with('connections', $connections);
+        }
+        else if (UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Employee')->first()){
+            $connections = UserAccount::whereRoleIs('Tenant')->get();
+            return view('chat.index')->with('connections', $connections);
+        }
     }
 
     /**
@@ -52,7 +65,7 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        $friend = User::find($id);
+        $friend = User::findOrFail($id);
         return view('chat.show')->withFriend($friend);
     }
 
@@ -101,7 +114,10 @@ class MessageController extends Controller
     }
 
     public function sendChat(Request $request){
+
+
         Message::create([
+            'Chat_Id' => $request->Chat_Id,
             'User_Id' => $request->User_Id,
             'Friend_Id' => $request->Friend_Id,
             'Message_Text' => $request->Message_Text,

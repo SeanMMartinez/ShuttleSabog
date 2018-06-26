@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\Connection;
 use App\Contract;
 use App\Mail\initialPass;
 use App\Room;
@@ -87,7 +88,7 @@ class UserController extends Controller
 
         $user->User_Nationality = $request->input('User_Nationality');
         $user->User_Birthdate = Carbon::parse($request->input('User_Birthdate'))->format('Y-m-d');
-        $user->User_Age = $request->input('User_Age');
+        $user->User_Age = $user->getAgeAttribute();
         $user->User_Religion = $request->input('User_Religion');
         $user->User_Gender = $request->input('User_Gender');
         $user->User_CivilStatus = $request->input('User_CivilStatus');
@@ -169,7 +170,21 @@ class UserController extends Controller
 
         //get the registered user id
         $thisUser = UserAccount::findOrFail($userAccount->UserAccount_Id);
+        //send email of initial password
         $this->sendEmail($thisUser, $password);
+
+//        //set friends upon registration for chat
+//        $connection = new Connection();
+//        //get the current registered user
+//        $currentUser = $user->User_Id;
+//        //get all employees
+//        $friends = UserAccount::whereRoleIs('Employee')->get();
+//
+//        foreach ($friends as $friend){
+//            $connection->User_Id = $currentUser;
+//            $connection->Friend_Id = $friend->User_Id;
+//            $connection->save();
+//        }
 
         //set the role to tenant
         $userAccount->attachRole('Tenant');
@@ -182,7 +197,7 @@ class UserController extends Controller
         $data = array('email' => $thisUser->UserAccount_Email, 'password' => $password);
 
         Mail::send('email.sendPass', ['data' => $data], function ($message) use ($data) {
-            $message->from('dormpanion@gmail.com', 'DormPanion');
+            $message->from('dormpanionmail@gmail.com', 'DormPanion');
             $message->to($data['email'])->subject('DormPanion Initial Password');
         });
     }
@@ -199,7 +214,8 @@ class UserController extends Controller
         $tenantInfo = TenantInfo::where('User_Id', $userAccount->User_Id)->first();
         $contracts = Contract::where('TenantInfo_Id', $tenantInfo->TenantInfo_Id)->get();
         $violations = Violation::where('Records_Owner', $userAccount->User_Id)->get();
-        return view("users.show")->withTenantInfo($tenantInfo)->with('userAccount', $userAccount)->with('contracts', $contracts)->with('violations', $violations);
+        return view("users.show")->withTenantInfo($tenantInfo)->with('userAccount', $userAccount)
+            ->with('contracts', $contracts)->with('violations', $violations);
     }
 
     /**

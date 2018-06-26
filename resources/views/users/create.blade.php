@@ -155,16 +155,6 @@
                                                             <div class="col">
                                                                 <div class="form-group md-form pb-3">
                                                                     <i class="fa fa-church prefix"></i>
-                                                                    <label for="age" data-error="wrong"
-                                                                           data-success="right">Age</label>
-                                                                    <input type="number" id="age"
-                                                                           class="form-control validate" name="User_Age" value="{{ old('User_Age') }}">
-                                                                    <span id="relMsg"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="form-group md-form pb-3">
-                                                                    <i class="fa fa-church prefix"></i>
                                                                     <label for="religion" data-error="wrong"
                                                                            data-success="right">Religion</label>
                                                                     <input type="text" id="religion"

@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function(){
     })->name('announcements');
 
     //chat
-    Route::get('chat', 'MessageController@index')->name('chat.index');
+    Route::get('chat', 'ConversationController@index')->name('chat.index');
     Route::get('chat/{id}', 'MessageController@show')->name('chat.show');
     Route::post('chat/getChat/{id}', 'MessageController@getChat');
     Route::post('chat/sendChat', 'MessageController@sendChat');
@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 //only administrator can access
-Route::middleware('role:administrator')->group(function (){
+Route::middleware('role:Administrator')->group(function (){
     //employees
     Route::resource('employees', 'EmployeeController');
 
@@ -59,10 +59,10 @@ Route::middleware('role:administrator')->group(function (){
 
     //violation
     Route::resource('violations', 'ViolationController');
-});
 
-//tenants
-Route::resource('users', 'UserController');
+    //tenants
+    Route::resource('users', 'UserController');
+});
 
 //routes for announcement
 Route::resource('announcements', 'AnnouncementController');

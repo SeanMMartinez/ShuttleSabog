@@ -25,4 +25,8 @@ class Personnel extends Model
         return $this->belongsTo('App\PersonnelWork', 'Pwork_Id');
     }
 
+    public function sched(){
+        return $this->hasMany('App\PersonnelSchedule', 'Personnel_Id');
+    }
+
 }
