@@ -16,7 +16,6 @@ window.Vue = require('vue');
  */
 
 Vue.component('chat', require('./components/Chat.vue'));
-
 Vue.component('chat-form', require('./components/ChatForm.vue'));
 
 const app = new Vue({

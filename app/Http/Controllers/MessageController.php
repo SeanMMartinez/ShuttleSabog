@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Conversation;
+use App\Chat;
 use App\Events\ChatEvent;
 use App\Message;
 use App\User;
@@ -22,18 +22,30 @@ class MessageController extends Controller
     {
 //      $friends = User::where('User_Id', Auth::user()->User_Id)->first()->connection();
 //      return view('chat.index')->with('friends', $friends);
-        if(UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Tenant')->first()){
-            $connections = UserAccount::whereRoleIs('Employee')->get();
-            return view('chat.index')->with('connections', $connections);
-        }
-        else if (UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Administrator')->first()){
-            $connections = UserAccount::whereRoleIs('Tenant')->get();
-            return view('chat.index')->with('connections', $connections);
-        }
-        else if (UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Employee')->first()){
-            $connections = UserAccount::whereRoleIs('Tenant')->get();
-            return view('chat.index')->with('connections', $connections);
-        }
+//        if(UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Tenant')->first()){
+//            $connections = UserAccount::whereRoleIs('Employee')->get();
+//            return view('chat.index')->with('connections', $connections);
+//        }
+//        else if (UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Administrator')->first()){
+//            $connections = UserAccount::whereRoleIs('Tenant')->get();
+//            return view('chat.index')->with('connections', $connections);
+//        }
+//        else if (UserAccount::where('User_Id', Auth::user()->User_Id)->whereRoleIs('Employee')->first()){
+//            $connections = UserAccount::whereRoleIs('Tenant')->get();
+//            return view('chat.index')->with('connections', $connections);
+//        }
+
+        //get messages containing the current logged in user
+        $messages = Message::where('User_Id', Auth::user()->User_Id)->where('Friend_Id', '!=', Auth::user()->User_Id)
+            ->orWhere('Friend_Id', Auth::user()->User_Id)->where('User_Id', '!=', Auth::user()->User_Id)->get();
+
+        //get all chat Id based on messages
+        $getChatId = $messages->pluck('Chat_Id')->toArray();
+
+        //get conversations
+        $conversations = Chat::whereIn('Chat_Id', $getChatId)->get();
+
+        return view('chat.index')->with('conversations', $conversations)->with('messages', $messages);
     }
 
     /**
@@ -114,8 +126,6 @@ class MessageController extends Controller
     }
 
     public function sendChat(Request $request){
-
-
         Message::create([
             'Chat_Id' => $request->Chat_Id,
             'User_Id' => $request->User_Id,

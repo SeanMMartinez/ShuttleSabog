@@ -189,7 +189,7 @@ class UserController extends Controller
         //set the role to tenant
         $userAccount->attachRole('Tenant');
 
-        return view('users.show')->with('userAccount', $userAccount);
+        return redirect()->route('users.show', $userAccount->User_Id);
     }
 
     //send initial password to email
@@ -200,6 +200,8 @@ class UserController extends Controller
             $message->from('dormpanionmail@gmail.com', 'DormPanion');
             $message->to($data['email'])->subject('DormPanion Initial Password');
         });
+
+        return redirect()->route('users.show', $this->User_Id)->with("success","Initial password was sent to email successfully.");
     }
 
     /**

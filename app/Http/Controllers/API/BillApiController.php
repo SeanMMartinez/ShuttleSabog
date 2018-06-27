@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\BillBreakDown;
 use App\Http\Controllers\Controller;
 use App\Bill;
 use App\User;
@@ -19,11 +20,21 @@ class BillApiController extends Controller
 {
     public function bills(){
         if($userAccount = UserAccount::where('UserAccount_Id', Auth::guard('api')->id())->get()){
-            $user = User::with('userAccount')->where('User_Id', auth()->user()->User_Id)->first();
+            $bills = Bill::where('User_Id', Auth::user()->User_Id)->get();
 
-            $bill = Bill::where('User_Id', $user->User_Id)->first();
+            return response()->json($bills);
+        }
+        else {
+            return response()->json(['response' => 'access denied'], 400);
+        }
+    }
 
-            return response()->json($bill);
+    public function billBreakDown($id){
+        if($userAccount = UserAccount::where('UserAccount_Id', Auth::guard('api')->id())->get()){
+            $bill = Bill::where('Bill_Id', $id)->first();
+            $billbreakdowns = BillBreakDown::where('Bill_Id', $bill->Bill_Id)->get();
+
+            return response()->json($billbreakdowns);
         }
         else {
             return response()->json(['response' => 'access denied'], 400);

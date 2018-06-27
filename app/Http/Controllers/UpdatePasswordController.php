@@ -38,6 +38,6 @@ class UpdatePasswordController extends Controller
         $userAccount->Password_Changed = 1;
         $userAccount->save();
 
-        return redirect()->back()->with("success","Password changed successfully !");;
+        return redirect()->back()->with("success","Password changed successfully !");
     }
 }

@@ -45,7 +45,7 @@ class ViolationController extends Controller
 
         //store contract info
         $violation = new Violation();
-        $violation->Records_CreatedBy = Auth::user()->id;
+        $violation->Records_CreatedBy = Auth::user()->User_Id;
         $violation->Records_Owner = $user;
         $violation->Records_Title = $request->input('Records_Title');
         $violation->Records_Text = $request->input('Records_Text');

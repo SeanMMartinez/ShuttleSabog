@@ -17,7 +17,7 @@ class PersonnelSchedule extends Model
 
     //fields of the table
     protected $fillable = [
-        'PersonnelSched_Id', 'Personnel_Id', 'Day','Time', 'Vacancy', 'Floor'
+        'PersonnelSched_Id', 'Personnel_Id', 'Days', 'Start_Time', 'End_Time', 'Vacancy', 'Floor'
     ];
 
     public function personnel(){

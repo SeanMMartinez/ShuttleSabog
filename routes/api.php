@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function (){
 
     //Bill API
     Route::get('/bills', 'API\BillApiController@bills');
+    Route::get('/billBreakDown/{id}','API\BillApiController@billBreakDown');
 
     //User Data API
     Route::get('/userDetails', 'API\UserDataApiController@userDetails');
@@ -40,13 +41,22 @@ Route::group(['middleware' => 'auth:api'], function (){
     //User Change Password API
     Route::post('/changePass', 'API\UserDataApiController@changePassword');
 
-    //Chat User
-    Route::post('addChat', 'API\ConversationApiController@conversation');
+    //Contracts API
+    Route::get('/contracts', 'API\ContractApiController@contracts');
 
-    //Chat User
-    Route::get('chat', 'API\ConversationApiController@chatUser');
+    //Violations API
+    Route::get('/violations', 'API\ViolationApiController@violations');
 
-    //Chat API
-    Route::get('chat/{id}', 'API\ConversationApiController@getChat');
+//    //Chat User
+//    Route::post('addChat', 'API\ConversationApiController@conversation');
+//
+//    //Chat User
+//    Route::get('chat', 'API\ConversationApiController@chatUser');
+//
+//    //Chat API
+//    Route::get('chat/{id}', 'API\ConversationApiController@getChat');
+//
+//    //Send chat API
+//    Route::post('chat/{id}', 'API\ConversationApiController@sendChat');
 });
 

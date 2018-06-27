@@ -31,7 +31,8 @@
                 @endforeach
             @else <p>No Bills found</p>
             @endif
-            <a class="waves-effect" href="{{ route('bills.index') }}">View Bills</a>
+            <a class="waves-effect" href="{{ route('bills.edit', $bill->Bill_Id) }}">Edit Status</a>
+
         </div>
     </main>
 

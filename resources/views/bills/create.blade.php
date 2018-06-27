@@ -60,18 +60,6 @@
                                                        data-success="right">Bill Due Date</label>
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="switch round blue-white-switch">
-                                                <label for="Bill_Status">Bill Status</label>
-                                                <label>
-                                                    Unpaid
-                                                    <input type="hidden" id="checkbox101" name="Bill_Status" value="0">
-                                                    <input type="checkbox" id="checkbox101" name="Bill_Status" value="1">
-                                                    <span class="lever"></span>
-                                                    Paid
-                                                </label>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">

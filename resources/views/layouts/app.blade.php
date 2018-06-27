@@ -138,4 +138,41 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function () {
+        var maxField = 10; //Input fields increment limitation
+        var addButton = $('.add_button'); //Add button selector
+        var wrapper = $('.field_wrapper'); //Input field wrapper
+        var fieldHTML = '<div class="row">\n' +
+            '<div class="col-md-6">\n' +
+            '<label for="Days[] ">Days</label>\n' +
+            '<input type="text" name="Days[] " value="" class="form-control">\n' +
+            '</div>\n' +
+            '<div class="col-md-5">\n' +
+            '<label for="Start_Time[]"></label>\n' +
+            '<input type="time" name="Start_Time[]" value="" class="form-control">\n' +
+            '</div>'+
+            '<div class="col-md-5">\n' +
+            '<label for="End_Time[]">End Time</label>\n' +
+            '<input type="time" name="End_Time[]" value="" class="form-control">\n' +
+            '</div>'+
+            '<a href="javascript:void(0);" class="remove_button"><i class="fa fa-2x red-text fa-minus"></i></a>' +
+            '</div>\n'; //New input field html
+        var x = 0; //Initial field counter is 1
+//Once add button is clicked
+        $(addButton).click(function () {
+//Check maximum number of input fields
+            if (x < maxField) {
+                x++; //Increment field counter
+                $(wrapper).append(fieldHTML); //Add field html
+            }
+        });
+//Once remove button is clicked
+        $(wrapper).on('click', '.remove_button', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            x--; //Decrement field counter
+        });
+    });
+</script>
 </html>

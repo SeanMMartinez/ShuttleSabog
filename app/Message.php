@@ -22,6 +22,10 @@ class Message extends Model
     ];
 
     public function chat(){
-        return $this->belongsTo('App\Conversation', 'Chat_Id');
+        return $this->belongsTo('App\Chat', 'Chat_Id');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User', 'User_Id');
     }
 }

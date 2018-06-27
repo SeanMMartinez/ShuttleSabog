@@ -28,8 +28,10 @@ Route::group(['middleware' => 'auth'], function(){
         return view ('announcements.index');
     })->name('announcements');
 
-    //chat
-    Route::get('chat', 'ConversationController@index')->name('chat.index');
+//    //chat
+//    Route::resource('chat', 'ChatController');
+
+    Route::get('chat', 'MessageController@index')->name('chat.index');
     Route::get('chat/{id}', 'MessageController@show')->name('chat.show');
     Route::post('chat/getChat/{id}', 'MessageController@getChat');
     Route::post('chat/sendChat', 'MessageController@sendChat');
@@ -50,9 +52,14 @@ Route::middleware('role:Administrator')->group(function (){
     Route::resource('rooms', 'RoomController');
     //routes for bills
     Route::resource('bills','BillController');
+    Route::get('paidbills','BillController@getPaid');
+    Route::get('unpaidbills','BillController@getUnpaid');
 
     //personnel
     Route::resource('personnels','PersonnelController');
+
+    //personnelschedule
+    Route::resource('personnelSched','PersonnelScheduleController');
 
     //contract
     Route::resource('contract', 'ContractController');

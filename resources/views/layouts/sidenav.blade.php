@@ -77,7 +77,7 @@
                     </li>
                     <li class="keybutton">
                         <a class="collapsible-header waves-effect arrow-r" href="/chat">
-                            Conversation Assistance
+                            Chat Assistance
                         </a>
                     </li>
                     <li class="keybutton">
@@ -228,10 +228,23 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="keybutton">
+                      <!--  <li class="keybutton">
                             <a class="collapsible-header waves-effect arrow-r" href="{{ route('bills.index') }}">
                                 Bills
                             </a>
+                        </li>
+                        -->
+                        <li class="keybutton">
+                            <a class="collapsible-header waves-effect arrow-r">
+                                Bills<i class="fa fa-angle-down rotate-icon"></i>
+                            </a>
+                            <div class="collapsible-body">
+                                <ul class="sub-menu">
+                                    <li><a class="waves-effect" href="{{ route('bills.create') }}">Create Bill</a></li>
+                                    <li><a class="waves-effect" href="/paidbills">Paid Bills</a></li>
+                                    <li><a class="waves-effect" href="/unpaidbills">Unpaid Bills</a></li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="keybutton">
                             <a class="collapsible-header waves-effect arrow-r">

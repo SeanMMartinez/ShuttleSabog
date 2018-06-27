@@ -19,8 +19,19 @@ class BillController extends Controller
      */
     public function index()
     {
-        $bills = Bill::orderBy('Bill_DateTime_Created', 'DESC')->paginate(10);
-        return view('bills.index')->with('bills', $bills);
+//        $bills = Bill::orderBy('Bill_DateTime_Created', 'DESC')->paginate(10);
+//        return view('bills.index')->with('bills', $bills);
+    }
+    public function getPaid()
+    {
+        $bills = Bill::where('Bill_Status','1')->paginate(10);
+        return view('bills.paid')->with('bills', $bills);
+
+    }
+    public function getUnpaid()
+    {
+        $bills = Bill::orderBy('Bill_DueDate')->where('Bill_Status','0')->paginate(10);
+        return view('bills.unpaid')->with('bills', $bills);
     }
     /**
      * Show the form for creating a new resource.
@@ -64,7 +75,7 @@ class BillController extends Controller
             $bill->Bill_Month = $request->input('Bill_Month');
             $bill->Bill_DateTime_Created = Carbon::now('Asia/Manila')->toDateTimeString();
             $bill->Bill_DueDate = Carbon::parse($request->input('Bill_DueDate'))->format('Y-m-d');
-            $bill->Bill_Status = $request->input('Bill_Status');
+            $bill->Bill_Status = 0;
             $bill->Bill_DividedTotal = '0';
             $bill->Bill_Total = '0';
             $bill->save();
@@ -103,7 +114,7 @@ class BillController extends Controller
     public function show($id)
     {
         $bill = Bill::where('Bill_Id', $id)->first();
-        $billbreakdowns = BillBreakDown::where('Bill_Id','=',$bill->Bill_Id)->get();
+        $billbreakdowns = BillBreakDown::where('Bill_Id', $bill->Bill_Id)->get();
         return view('bills.show')->with('bill', $bill)->with('billbreakdowns',$billbreakdowns);
     }
     /**
@@ -114,7 +125,8 @@ class BillController extends Controller
      */
     public function edit($id)
     {
-        //
+        $bill = Bill::where('Bill_Id', $id)->first();
+        return view('bills.edit')->withBill($bill);
     }
     /**
      * Update the specified resource in storage.
@@ -125,7 +137,13 @@ class BillController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bill = Bill::where('Bill_Id', $id)->first();
+        $bill->Bill_Status = $request->input('Bill_Status');
+        $bill->save();
+
+        $bills = Bill::where('Bill_Status','1')->paginate(10);
+        return view('bills.paid')->with('bills', $bills);
+
     }
     /**
      * Remove the specified resource from storage.

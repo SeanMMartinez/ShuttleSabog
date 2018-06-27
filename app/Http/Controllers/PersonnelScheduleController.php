@@ -15,8 +15,8 @@ class PersonnelScheduleController extends Controller
      */
     public function index()
     {
-        $personnelSched = PersonnelSchedule::all();
-        return view('personnelsched.index')->withPersonnelSchedule($personnelSched);
+        $personnelScheds = PersonnelSchedule::all();
+        return view('personnelsched.index')->with('personnelScheds', $personnelScheds);
     }
 
     /**
@@ -26,8 +26,8 @@ class PersonnelScheduleController extends Controller
      */
     public function create()
     {
-        $personnel = Personnel::all();
-        return view('personnelsched.index')->withPersonnel($personnel);
+        $personnels = Personnel::all();
+        return view('personnelsched.create')->with('personnels', $personnels);
     }
 
     /**
@@ -38,15 +38,20 @@ class PersonnelScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        $personnelSched = new PersonnelSchedule();
-        $personnelSched->Personnel_Id = $request->input('Personnel_Id');
-        $personnelSched->Day = $request->input('Day');
-        $personnelSched->Time = $request->input('Time');
-        $personnelSched->Vacancy = $request->input('Vacancy');
-        $personnelSched->Floor = $request->input('Floor');
-        $personnelSched->save();
+        $arraycount = count($request->input('Days'));
 
-        return view('personnelsched.show')->with('personnelSched', $personnelSched);
+        for ($i = 0; $i < $arraycount; ++$i){
+            $personnelSched = new PersonnelSchedule();
+            $personnelSched->Personnel_Id = $request->input('Personnel_Id');
+            $personnelSched->Days = $request->input('Days')[$i];
+            $personnelSched->Start_Time = $request->input('Start_Time')[$i];
+            $personnelSched->End_Time = $request->input('End_Time')[$i];
+            $personnelSched->Vacancy = $request->input('Vacancy');
+            $personnelSched->Floor = $request->input('Floor');
+            $personnelSched->save();
+        }
+
+        return view('personnelsched.index');
     }
 
     /**

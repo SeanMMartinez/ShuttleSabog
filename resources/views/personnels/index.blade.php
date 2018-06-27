@@ -17,6 +17,9 @@
                                     <a class="btn btn-info mb-3" href="{{ route('personnels.create') }}">
                                         <i class="fa fa-pencil-alt"></i> Add New Personnel
                                     </a>
+                                    <a class="btn btn-info mb-3" href="/personnelSched/create">
+                                        <i class="fa fa-calendar-alt"></i> Add Personnel Schedule
+                                    </a>
                                     <!--Table-->
                                     <table class="table table-hover">
                                         <!--Table head-->

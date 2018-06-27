@@ -15,7 +15,7 @@
 
 @extends ('layouts.sidenav')
 
-@section('title', 'Conversation')
+@section('title', 'Chat')
 
 @section('content')
     <main>
